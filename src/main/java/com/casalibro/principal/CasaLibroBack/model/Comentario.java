@@ -1,4 +1,6 @@
 package com.casalibro.principal.CasaLibroBack.model;
+import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,12 +14,23 @@ public class Comentario {
     @Column(name = "mensaje")
     private String mensaje;
 
-    /*
-    Aqui hay que poner los many to many y many to one cuando el resto de clases esten generadas
-     */
+    @ManyToOne
+    @JoinColumn(name = "id_libro", nullable = false)
+    @JsonIgnore
+    private Libro libro;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 
     public Comentario(){
 
+    }
+
+    public Comentario(String mensaje, Libro libro, Usuario usuario) {
+        this.mensaje = mensaje;
+        this.libro = libro;
+        this.usuario = usuario;
     }
 
     public Comentario(String mensaje) {
@@ -38,5 +51,21 @@ public class Comentario {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public Libro getLibro() {
+        return libro;
+    }
+
+    public void setLibro(Libro libro) {
+        this.libro = libro;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
