@@ -45,6 +45,7 @@ public class MainSecurity {
         return super.authenticationManagerBean();
     }
 
+
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
