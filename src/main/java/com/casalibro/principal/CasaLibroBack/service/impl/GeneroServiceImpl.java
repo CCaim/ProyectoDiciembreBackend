@@ -25,12 +25,12 @@ public class GeneroServiceImpl implements GeneroService {
     }
 
     @Override
-    public Genero obtenerGenerosPorId(Integer id){
+    public Genero obtenerGeneroPorId(Integer id){
         return generoRepo.findById(id).get();
     }
 
     @Override
-    Genero obtenerGeneroPorNombre(String nombreGenero){
+    public Genero obtenerGeneroPorNombre(String nombreGenero){
         return generoRepo.findByNombre(nombreGenero).get();
     }
 
@@ -46,7 +46,7 @@ public class GeneroServiceImpl implements GeneroService {
 
     @Override
     public Genero actualizarGenero(Genero GeneroUpdate, Integer idGU){
-        Genero generoAntiguo = obtenerGenerosPorId(idGU);
+        Genero generoAntiguo = obtenerGeneroPorId(idGU);
         return insertarGenero(generoAntiguo);
     }
 }
