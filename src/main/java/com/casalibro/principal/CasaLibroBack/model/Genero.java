@@ -1,6 +1,10 @@
 package com.casalibro.principal.CasaLibroBack.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Genero")
@@ -17,17 +21,18 @@ public class Genero {
     @Column(name = "tipo")
     private String tipo;
 
-    /*
-    Aqui hay que poner los many to many y many to one cuando el resto de clases esten generadas
-     */
+    @OneToMany(mappedBy = "genero", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @JsonIgnore
+    private Set<LibroGeneros> libros;
 
     public Genero(String nombre, String tipo) {
         this.nombre = nombre;
         this.tipo = tipo;
+        this.libros = new HashSet<LibroGeneros>();
     }
 
     public Genero() {
-
+        this.libros = new HashSet<LibroGeneros>();
     }
 
     public Integer getId() {
@@ -52,5 +57,13 @@ public class Genero {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Set<LibroGeneros> getLibros() {
+        return libros;
+    }
+
+    public void setLibros(Set<LibroGeneros> libros) {
+        this.libros = libros;
     }
 }

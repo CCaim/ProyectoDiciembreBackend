@@ -1,8 +1,11 @@
 package com.casalibro.principal.CasaLibroBack.model;
 
+import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Libro")
@@ -28,16 +31,33 @@ public class Libro {
     @Column(name = "urlImagen")
     private String urlImagen;
 
-    /*
-    Aqui hay que poner los many to many y many to one cuando el resto de clases esten generadas
-     */
+    @ManyToOne
+    @JoinColumn(name = "id_usuario",nullable = false)
+    private Usuario usuario;
 
-    public Libro(Date fecha, float valoracion) {
+    @OneToMany(mappedBy = "libro", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<Comentario> comentarios;
+
+    @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LibroGeneros> generos;
+
+    public Libro(Set<LibroGeneros> generos, Set<Comentario> comentarios, Usuario usuario, String urlImagen, String tipo, Date fecha, float valoracion, String nombre) {
+        this.generos = generos;
+        this.comentarios = comentarios;
+        this.usuario = usuario;
+        this.urlImagen = urlImagen;
+        this.tipo = tipo;
         this.fecha = fecha;
-        this.valoracion = 0f;
+        this.valoracion = valoracion;
+        this.nombre = nombre;
     }
 
     public Libro() {
+        this.fecha = new Date();
+        this.valoracion = 0f;
+        this.usuario = new Usuario();
+        this.comentarios = new HashSet<Comentario>();
+        this.generos = new HashSet<LibroGeneros>();
 
     }
 
@@ -87,5 +107,29 @@ public class Libro {
 
     public void setUrlImagen(String urlImagen) {
         this.urlImagen = urlImagen;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Set<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(Set<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    public Set<LibroGeneros> getGeneros() {
+        return generos;
+    }
+
+    public void setGeneros(Set<LibroGeneros> generos) {
+        this.generos = generos;
     }
 }
