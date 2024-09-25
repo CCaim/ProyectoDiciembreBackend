@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UsuarioPrincipal implements UserDetails {
 
@@ -21,11 +22,20 @@ public class UsuarioPrincipal implements UserDetails {
 
 
     public static UsuarioPrincipal build(Usuario usuario){
-        List<GrantedAuthority> authorities = usuario.getRoles().steam().map(
-                rol -> new SimpleGrantedAuthority(rol.getNombre().name())
-        );
-        return new UsuarioPrincipal(usuario.getUsername(), usuario.getPassword(), usuario.getEmail(), usuario.getLibros(), usuario.getComentarios(), authorities);
+        List<GrantedAuthority> authorities = usuario.getRoles().stream().map(
+            rol -> new SimpleGrantedAuthority(rol.getNombre().name())
+        ).collect(Collectors.toList());
+        return new UsuarioPrincipal(usuario.getUsername(),usuario.getPassword(),usuario.getEmail(), usuario.getLibros(), usuario.getComentarios(), authorities);
 
+    }
+
+    public UsuarioPrincipal(String username, String password, String email, Set<Libro> libros, Set<Comentario> comentarios, Collection<? extends GrantedAuthority> authorities) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.libros = libros;
+        this.comentarios = comentarios;
+        this.authorities = authorities;
     }
 
     @Override

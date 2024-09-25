@@ -4,14 +4,14 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class jwtDto {
+public class JwtDto {
 
     private String token;
     private String bearer = "bearer";
     private String username;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public jwtDto(String token, String username, Collection<? extends GrantedAuthority> authorities) {
+    public JwtDto(String token, String username, Collection<? extends GrantedAuthority> authorities) {
         this.token = token;
         this.username = username;
         this.authorities = authorities;
