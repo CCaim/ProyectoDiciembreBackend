@@ -1,8 +1,4 @@
-crear los many to many de libros y comprobar si hay algun otro que aun no haya creado
-
-terminar controllers
-
-arreglar los errores de los repos y los @Autowired
+descubrir de donde salen los errores raros
 
 probar que todo esta sin errores
 
