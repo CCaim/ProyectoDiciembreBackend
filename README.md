@@ -1,5 +1,13 @@
-Crear toda la logica de usuario
+crear los many to many de libros y comprobar si hay algun otro que aun no haya creado
 
-aniadir los many to many y many to one que quedan
+terminar controllers
 
-continuar con los controllers
+arreglar los errores de los repos y los @Autowired
+
+probar que todo esta sin errores
+
+crear la BBDD
+
+despliegue inicial
+
+quitar en el .properties la linea para la primera ejecuccion
