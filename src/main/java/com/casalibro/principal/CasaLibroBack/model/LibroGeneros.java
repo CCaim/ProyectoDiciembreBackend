@@ -21,16 +21,30 @@ public class LibroGeneros {
     @MapsId("genero_id")
     private  Genero genero;
 
+    @Column(name = "cantidad")
+    private Integer cantidad;
+
     private String nombre;
 
     public LibroGeneros() {
     }
 
-    public LibroGeneros( Libro l, Genero g, String n) {
+    public LibroGeneros( Libro l, Genero g, String n, Integer c) {
         this.libro = l;
         this.genero = g;
         this.nombre = n;
+        this.cantidad = c;
     }
+
+    public LibroGeneros(Libro libro, Genero genero) {
+    }
+
+    public LibroGeneros(Libro libro, Genero genero, Integer cantidad) {
+        this.libro = libro;
+        this.genero = genero;
+        this.cantidad = cantidad;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

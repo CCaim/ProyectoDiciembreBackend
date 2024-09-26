@@ -1,9 +1,11 @@
 package com.casalibro.principal.CasaLibroBack.service;
 
 import com.casalibro.principal.CasaLibroBack.model.Libro;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface LibroService {
 
     public Libro insertarLibro(Libro libro);

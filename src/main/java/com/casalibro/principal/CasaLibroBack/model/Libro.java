@@ -41,17 +41,6 @@ public class Libro {
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LibroGeneros> generos;
 
-    public Libro(Set<LibroGeneros> generos, Set<Comentario> comentarios, Usuario usuario, String urlImagen, String tipo, Date fecha, float valoracion, String nombre) {
-        this.generos = generos;
-        this.comentarios = comentarios;
-        this.usuario = usuario;
-        this.urlImagen = urlImagen;
-        this.tipo = tipo;
-        this.fecha = fecha;
-        this.valoracion = valoracion;
-        this.nombre = nombre;
-    }
-
     public Libro() {
         this.fecha = new Date();
         this.valoracion = 0f;
@@ -59,6 +48,23 @@ public class Libro {
         this.comentarios = new HashSet<Comentario>();
         this.generos = new HashSet<LibroGeneros>();
 
+    }
+
+    public Libro(String nombre, float valoracion, Date fecha, String tipo, String urlImagen, Usuario usuario, Set<Comentario> comentarios, Set<LibroGeneros> generos) {
+        this.nombre = nombre;
+        this.valoracion = valoracion;
+        this.fecha = fecha;
+        this.tipo = tipo;
+        this.urlImagen = urlImagen;
+        this.usuario = usuario;
+        this.comentarios = comentarios;
+        this.generos = generos;
+    }
+
+    public Libro(String nombre, String tipo, String urlImagen) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.urlImagen = urlImagen;
     }
 
     public Integer getId() {
@@ -132,4 +138,25 @@ public class Libro {
     public void setGeneros(Set<LibroGeneros> generos) {
         this.generos = generos;
     }
+
+    public void addGenero(Genero genero, int cantidad) {
+        LibroGeneros li = new LibroGeneros(this, genero, cantidad);
+        if (this.generos.contains(li)) {
+            this.generos.remove(li);
+        }
+    }
+    public void removeGenero(Genero genero) {
+        for (LibroGeneros li : genero.getLibros()) {
+            if (li.getLibro().equals(this)) {
+                genero.getLibros().remove(li);
+            }
+        }
+    }
+
+
+    public void removeGeneros(){
+        this.generos.removeAll(this.generos);
+    }
+
+
 }
