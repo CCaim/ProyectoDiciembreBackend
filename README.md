@@ -1,3 +1,6 @@
+*TERMINAR LOS CONTROLLERS*
+
+
 descubrir de donde salen los errores raros
 
 probar que todo esta sin errores
