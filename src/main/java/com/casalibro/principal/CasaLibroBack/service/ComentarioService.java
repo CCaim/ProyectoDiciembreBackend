@@ -2,9 +2,11 @@ package com.casalibro.principal.CasaLibroBack.service;
 
 import com.casalibro.principal.CasaLibroBack.model.Comentario;
 import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface ComentarioService {
 
     public Comentario insertarComentario(Comentario comen);

@@ -1,6 +1,7 @@
 package com.casalibro.principal.CasaLibroBack.controller;
 
 import com.casalibro.principal.CasaLibroBack.dto.LibroDTO;
+import com.casalibro.principal.CasaLibroBack.dto.LibroEditDTO;
 import com.casalibro.principal.CasaLibroBack.model.Genero;
 import com.casalibro.principal.CasaLibroBack.model.Libro;
 import com.casalibro.principal.CasaLibroBack.repository.GeneroRepo;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -52,4 +54,33 @@ public class LibroController {
         libroService.insertarLibro(libroNuevo);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> actualizarLibro(@PathVariable(name = "id") Integer idLibroAntiguo, @RequestBody LibroEditDTO libroEditDTO, BindingResult bindingResult){
+        if (bindingResult.hasErrors())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Libro libroAntiguo = libroService.obtenerLibroPorId(idLibroAntiguo);
+        libroAntiguo.removeGeneros();
+        libroAntiguo.setNombre(libroEditDTO.getNombre());
+        libroAntiguo.setFecha(new Date());
+        libroAntiguo.setTipo(libroEditDTO.getTipo());
+        libroAntiguo.setValoracion(libroEditDTO.getValoracion());
+        libroAntiguo.setUrlImagen(libroEditDTO.getUrlImagen());
+        libroAntiguo.setComentarios(libroEditDTO.getComentarios());
+
+        libroService.insertarLibro(libroAntiguo);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
+    }
+    @RequestMapping(value="/remove/{id}", method = RequestMethod.DELETE)
+
+    public ResponseEntity<HttpStatus> eliminarRecetaPorID(@PathVariable(name = "id") Integer id){
+        try{
+            libroService.eliminarLibroPorId(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

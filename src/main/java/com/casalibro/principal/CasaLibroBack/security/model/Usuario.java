@@ -56,6 +56,9 @@ public class Usuario {
         this.comentarios = new HashSet<Comentario>();
     }
 
+    public Usuario(String username, String encode, String email) {
+    }
+
     public int getId() {
         return id;
     }
