@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 public class ComentarioServiceImpl implements ComentarioService {
 
     @Autowired
@@ -29,7 +30,7 @@ public class ComentarioServiceImpl implements ComentarioService {
     }
 
     @Override
-    public List<Comentario> obtenerComentarioPorUsuario(Usuario usu) {
+    public List<Comentario> obtenerComentariosPorUsuario(Usuario usu) {
         List<Comentario> listaComentarios = new ArrayList<Comentario>();
         for (Comentario comentario : listarComentarios()) {
             if(comentario.getUsuario().equals(usu)) {
