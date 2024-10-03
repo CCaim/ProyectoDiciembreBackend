@@ -11,8 +11,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
-
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.casalibro.principal.CasaLibroBack")
 public class CasaLibroBackApplication extends SpringBootServletInitializer {
 
 	@Override

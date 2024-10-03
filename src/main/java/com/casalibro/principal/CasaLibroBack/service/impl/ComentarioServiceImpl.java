@@ -5,11 +5,12 @@ import com.casalibro.principal.CasaLibroBack.repository.ComentarioRepo;
 import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
 import com.casalibro.principal.CasaLibroBack.service.ComentarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+@Service
 public class ComentarioServiceImpl implements ComentarioService {
 
     @Autowired
