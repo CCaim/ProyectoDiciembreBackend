@@ -4,9 +4,11 @@ import com.casalibro.principal.CasaLibroBack.model.Libro;
 import com.casalibro.principal.CasaLibroBack.repository.LibroRepo;
 import com.casalibro.principal.CasaLibroBack.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class LibroServiceImpl implements LibroService {
 
     @Autowired
