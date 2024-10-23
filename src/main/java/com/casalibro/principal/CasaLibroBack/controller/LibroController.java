@@ -25,16 +25,19 @@ public class LibroController {
     @Autowired
     private GeneroRepo generoRepo;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public List<Libro> listadoLibros(){
         return libroService.listarLibro();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Libro obtenerLibroPorId(@PathVariable(name = "id") Integer id){
         return libroService.obtenerLibroPorId(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public ResponseEntity<?> insertarLibro(@RequestBody LibroDTO libroDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors())
@@ -55,6 +58,7 @@ public class LibroController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> actualizarLibro(@PathVariable(name = "id") Integer idLibroAntiguo, @RequestBody LibroEditDTO libroEditDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors())
@@ -72,6 +76,7 @@ public class LibroController {
         return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value="/remove/{id}", method = RequestMethod.DELETE)
 
     public ResponseEntity<HttpStatus> eliminarRecetaPorID(@PathVariable(name = "id") Integer id){

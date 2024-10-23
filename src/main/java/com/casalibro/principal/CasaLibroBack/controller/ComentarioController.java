@@ -14,11 +14,13 @@ public class ComentarioController {
     @Autowired
     private ComentarioService comentarioService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value="/getAll", method = RequestMethod.GET)
     public List<Comentario> listadoRecetas(){
         return comentarioService.listarComentarios();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Comentario obtenerComentarioPorID(@PathVariable(name = "id") Integer id){
         return comentarioService.obtenerComentarioPorId(id);

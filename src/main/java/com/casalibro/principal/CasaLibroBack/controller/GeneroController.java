@@ -18,15 +18,18 @@ public class GeneroController {
     @Autowired
     private GeneroService generoService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public List<Genero> listadoGeneros(){
         return generoService.listarGeneros();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Genero obtenerGeneroPorId(@PathVariable(name = "id") Integer id){
         return generoService.obtenerGeneroPorId(id);
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public ResponseEntity<?> insertarGenero(@RequestBody GeneroDTO generoNuevoDTO, BindingResult bindingResult){
         if (bindingResult.hasErrors())
@@ -36,6 +39,7 @@ public class GeneroController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> actualizarGenero(@PathVariable(name = "id") Integer idAntiguo, @RequestBody GeneroDTO generoActualizado, BindingResult bindingResult){
         if (bindingResult.hasErrors())
@@ -47,6 +51,7 @@ public class GeneroController {
         generoService.insertarGenero(generoAntiguo);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = "/{remove}", method = RequestMethod.DELETE)
     public ResponseEntity<HttpStatus> eliminarGeneroPorID(@PathVariable(name = "id") Integer id){
         try {
