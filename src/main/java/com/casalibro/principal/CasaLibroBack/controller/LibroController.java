@@ -7,7 +7,6 @@ import com.casalibro.principal.CasaLibroBack.model.Libro;
 import com.casalibro.principal.CasaLibroBack.repository.GeneroRepo;
 import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
 import com.casalibro.principal.CasaLibroBack.service.LibroService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +19,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/libro")
 public class LibroController {
-
-    @Autowired
-    private HttpServletResponse httpServletResponse;
-
-    private void addCORSHeaders(){
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Autorization");
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-    }
 
     @Autowired
     private LibroService libroService;
