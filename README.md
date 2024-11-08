@@ -1,3 +1,1 @@
-arreglar error de cors
-
-poder hacer login y empezar a crear libros y esas movidas
+encontrar que genera el error de registro en el login (pinta cosa del front)
