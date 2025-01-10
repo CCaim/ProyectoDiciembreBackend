@@ -28,9 +28,11 @@ public class UsuarioService {
         return usuarioRepo.existsByEmail(correo);
     }
 
-    public Usuario guardar(Usuario usu){
-        return usuarioRepo.save(usu);
+    public Usuario guardar(Usuario usu) {
+        Usuario savedUsuario = usuarioRepo.save(usu);
+        return savedUsuario;
     }
+
 
     public List<Usuario> listarUsuario(){
         return usuarioRepo.findAll();

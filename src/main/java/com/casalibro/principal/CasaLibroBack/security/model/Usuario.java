@@ -18,13 +18,13 @@ public class Usuario {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "username", unique = true)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -43,22 +43,22 @@ public class Usuario {
     )
     private Collection<Rol> roles;
 
-    public Usuario(){
-        this.libros = new HashSet<Libro>();
-        this.comentarios = new HashSet<Comentario>();
+    // Constructor por defecto
+    public Usuario() {
+        this.libros = new HashSet<>();
+        this.comentarios = new HashSet<>();
     }
 
-    public Usuario(String username, String password, String email, Set<Libro> libros, Set<Comentario> comentarios) {
+    // Constructor con parámetros para inicializar un usuario
+    public Usuario(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.libros = new HashSet<Libro>();
-        this.comentarios = new HashSet<Comentario>();
+        this.libros = new HashSet<>();
+        this.comentarios = new HashSet<>();
     }
 
-    public Usuario(String username, String encode, String email) {
-    }
-
+    // Getters y Setters
     public int getId() {
         return id;
     }
