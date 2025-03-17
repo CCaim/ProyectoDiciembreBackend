@@ -5,20 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MainSecurity {
 
     @Autowired
@@ -37,29 +33,25 @@ public class MainSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Desactiva CSRF (opcional)
+                .csrf(csrf -> csrf.disable()) // Desactiva CSRF
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/auth/**", "/libro/getAll", "/libro/{id}", "/v2/api-docs/**", "/configuration/**").permitAll()
-                        .anyRequest().authenticated() // Cualquier otra ruta requiere autenticación
+                        .requestMatchers("/auth/**", "/libro/getAll", "/libro/{id}").permitAll()
+                        .anyRequest().authenticated() // Requiere autenticación para el resto
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Página de login personalizada (opcional)
-                        .permitAll() // Permite acceso sin autenticación a la página de login
+                        .loginPage("/login") // Página de login personalizada
+                        .permitAll()
                 )
                 .logout(logout -> logout
-                        .permitAll() // Permite que cualquier usuario pueda cerrar sesión
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout=true")
+                        .permitAll()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Usamos sesiones tradicionales
-                        .maximumSessions(1) // Limitar el número de sesiones concurrentes (opcional)
-                        .expiredUrl("/login?expired=true") // URL de redirección después de sesión expirada
-                );
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Usar sesiones estándar
+                )
+                .cors(cors -> cors.configurationSource(request -> new org.springframework.web.cors.CorsConfiguration().applyPermitDefaultValues()));
 
         return http.build();
-    }
-
-    @Autowired
-    public void configure(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 }
