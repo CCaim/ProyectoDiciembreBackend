@@ -1,12 +1,9 @@
 package com.casalibro.principal.CasaLibroBack.security;
 
-import com.casalibro.principal.CasaLibroBack.security.jwt.JwtEntryPoint;
-import com.casalibro.principal.CasaLibroBack.security.jwt.JwtTokenFilter;
 import com.casalibro.principal.CasaLibroBack.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -27,21 +24,12 @@ public class MainSecurity {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private JwtEntryPoint jwtEntryPoint;
-
-    @Bean
-    public JwtTokenFilter jwtTokenFilter() {
-        return new JwtTokenFilter();
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    @Lazy // Asegura que el AuthenticationManager se cree después de que otros beans estén listos.
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
@@ -49,26 +37,28 @@ public class MainSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Desactiva CSRF
+                .csrf(csrf -> csrf.disable()) // Desactiva CSRF (opcional)
                 .authorizeRequests(authorize -> authorize
                         .requestMatchers("/auth/**", "/libro/getAll", "/libro/{id}", "/v2/api-docs/**", "/configuration/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated() // Cualquier otra ruta requiere autenticación
                 )
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtEntryPoint))
+                .formLogin(form -> form
+                        .loginPage("/login") // Página de login personalizada (opcional)
+                        .permitAll() // Permite acceso sin autenticación a la página de login
+                )
+                .logout(logout -> logout
+                        .permitAll() // Permite que cualquier usuario pueda cerrar sesión
+                )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                // Deshabilitar CORS (no configurar CORS aquí)
-                .cors(cors -> {});  // Esta línea ahora no configura nada.
-
-        http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Usamos sesiones tradicionales
+                        .maximumSessions(1) // Limitar el número de sesiones concurrentes (opcional)
+                        .expiredUrl("/login?expired=true") // URL de redirección después de sesión expirada
+                );
 
         return http.build();
     }
 
-    // Esta inyección ahora debería evitar el ciclo de dependencia circular
     @Autowired
-    @Lazy
     public void configure(AuthenticationManagerBuilder auth, PasswordEncoder passwordEncoder) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }

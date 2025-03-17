@@ -4,18 +4,19 @@ import com.casalibro.principal.CasaLibroBack.model.Comentario;
 import com.casalibro.principal.CasaLibroBack.model.Libro;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
     @Column(name = "username", unique = true, nullable = false)
@@ -27,35 +28,28 @@ public class Usuario {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private Set<Libro> libros;
+    private Set<Libro> libros = new HashSet<>();
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private Set<Comentario> comentarios;
+    private Set<Comentario> comentarios = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "usuarios_roles",
-            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id")
     )
-    private Collection<Rol> roles;
+    private Collection<Rol> roles = new HashSet<>();
 
-    // Constructor por defecto
-    public Usuario() {
-        this.libros = new HashSet<>();
-        this.comentarios = new HashSet<>();
-    }
+    public Usuario() {}
 
-    // Constructor con parámetros para inicializar un usuario
     public Usuario(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.libros = new HashSet<>();
-        this.comentarios = new HashSet<>();
     }
 
     // Getters y Setters
@@ -91,27 +85,39 @@ public class Usuario {
         this.email = email;
     }
 
-    public Set<Libro> getLibros() {
-        return libros;
-    }
-
-    public void setLibros(Set<Libro> libros) {
-        this.libros = libros;
-    }
-
-    public Set<Comentario> getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(Set<Comentario> comentarios) {
-        this.comentarios = comentarios;
-    }
-
     public Collection<Rol> getRoles() {
         return roles;
     }
 
     public void setRoles(Collection<Rol> roles) {
         this.roles = roles;
+    }
+
+    // Métodos de UserDetails
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(rol -> new SimpleGrantedAuthority(rol.toString()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // Puedes personalizarlo si lo necesitas
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; // Personalizable
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true; // Personalizable
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true; // Puedes agregar lógica de activación
     }
 }
