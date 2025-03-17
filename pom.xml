@@ -50,11 +50,11 @@
 			<version>8.0.33</version>
 		</dependency>
 
-		<!-- JSON Web Token -->
+		<!-- H2 Database (opcional para pruebas rápidas) -->
 		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
-			<version>0.9.1</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- Spring Boot DevTools -->
