@@ -93,6 +93,14 @@ public class Usuario implements UserDetails {
         this.roles = roles;
     }
 
+    public Set<Libro> getLibros() {
+        return libros;
+    }
+
+    public Set<Comentario> getComentarios() {
+        return comentarios;
+    }
+
     // Métodos de UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
