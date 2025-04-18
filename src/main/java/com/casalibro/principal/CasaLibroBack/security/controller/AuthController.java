@@ -68,4 +68,17 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return new ResponseEntity<>(new Mensaje("Login exitoso"), HttpStatus.OK);
     }
+
+    @GetMapping("/session")
+    public ResponseEntity<?> checkSession() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            // Si la sesión está activa
+            return new ResponseEntity<>(new Mensaje("Sesión activa"), HttpStatus.OK);
+        } else {
+            // Si la sesión no está activa, devolver un estado 401 (No autorizado)
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new Mensaje("No hay sesión activa, redirigiendo a login: http://localhost:4200/login"));
+        }
+    }
 }

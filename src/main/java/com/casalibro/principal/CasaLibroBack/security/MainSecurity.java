@@ -7,14 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
 public class MainSecurity {
 
     @Autowired
@@ -33,23 +31,36 @@ public class MainSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Desactiva CSRF
+                // Desactiva CSRF si no estás usando tokens para proteger formularios
+                .csrf(csrf -> csrf.disable())
+
+                // Configuración de las rutas públicas y protegidas
                 .authorizeRequests(authorize -> authorize
-                        .requestMatchers("/auth/**", "/libro/getAll", "/libro/{id}").permitAll()
-                        .anyRequest().authenticated() // Requiere autenticación para el resto
+                        .requestMatchers("/auth/**").permitAll() // Permitir login y registro
+                        .requestMatchers("/libro/getAll", "/libro/{id}").permitAll() // Rutas públicas para libros
+                        .anyRequest().authenticated() // Proteger todas las demás rutas
                 )
+
+                // Configuración de login
                 .formLogin(form -> form
-                        .loginPage("/login") // Página de login personalizada
+                        .loginPage("/auth/login") // Página de login
+                        .defaultSuccessUrl("/home", true) // Redirigir tras login exitoso
                         .permitAll()
                 )
+
+                // Configuración de logout
                 .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
+                        .logoutUrl("/auth/logout") // Endpoint para cerrar sesión
+                        .logoutSuccessUrl("/auth/login?logout=true") // Redirigir tras logout
                         .permitAll()
                 )
+
+                // Configuración de manejo de sesiones
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Usar sesiones estándar
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Crear sesión si es necesario
                 )
+
+                // Configuración de CORS (si el frontend está en un dominio diferente)
                 .cors(cors -> cors.configurationSource(request -> new org.springframework.web.cors.CorsConfiguration().applyPermitDefaultValues()));
 
         return http.build();
