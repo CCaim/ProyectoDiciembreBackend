@@ -40,4 +40,11 @@ public class CasaLibroBackApplication extends SpringBootServletInitializer {
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		return new CorsFilter(urlBasedCorsConfigurationSource);
 	}
+
+
+
+
+
+
+
 }

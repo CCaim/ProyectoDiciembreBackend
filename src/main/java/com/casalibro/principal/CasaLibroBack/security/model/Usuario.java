@@ -4,19 +4,18 @@ import com.casalibro.principal.CasaLibroBack.model.Comentario;
 import com.casalibro.principal.CasaLibroBack.model.Libro;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements UserDetails {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "username", unique = true, nullable = false)
@@ -28,28 +27,35 @@ public class Usuario implements UserDetails {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private Set<Libro> libros = new HashSet<>();
+    private Set<Libro> libros;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private Set<Comentario> comentarios = new HashSet<>();
+    private Set<Comentario> comentarios;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "usuarios_roles",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "rol_id")
+            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "rol_id", referencedColumnName = "id")
     )
-    private Collection<Rol> roles = new HashSet<>();
+    private Collection<Rol> roles;
 
-    public Usuario() {}
+    // Constructor por defecto
+    public Usuario() {
+        this.libros = new HashSet<>();
+        this.comentarios = new HashSet<>();
+    }
 
+    // Constructor con parámetros para inicializar un usuario
     public Usuario(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.libros = new HashSet<>();
+        this.comentarios = new HashSet<>();
     }
 
     // Getters y Setters
@@ -85,47 +91,27 @@ public class Usuario implements UserDetails {
         this.email = email;
     }
 
-    public Collection<Rol> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Rol> roles) {
-        this.roles = roles;
-    }
-
     public Set<Libro> getLibros() {
         return libros;
+    }
+
+    public void setLibros(Set<Libro> libros) {
+        this.libros = libros;
     }
 
     public Set<Comentario> getComentarios() {
         return comentarios;
     }
 
-    // Métodos de UserDetails
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(rol -> new SimpleGrantedAuthority(rol.toString()))
-                .collect(Collectors.toList());
+    public void setComentarios(Set<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true; // Puedes personalizarlo si lo necesitas
+    public Collection<Rol> getRoles() {
+        return roles;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true; // Personalizable
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true; // Personalizable
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true; // Puedes agregar lógica de activación
+    public void setRoles(Collection<Rol> roles) {
+        this.roles = roles;
     }
 }

@@ -11,11 +11,13 @@ public class Rol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nombre", unique = true, nullable = false)
+    @Column(name = "nombre")
     @Enumerated(EnumType.STRING)
     private RolNombre nombre;
 
-    public Rol() {}
+    public Rol(){
+
+    }
 
     public Rol(RolNombre nombre) {
         this.nombre = nombre;
@@ -35,10 +37,5 @@ public class Rol {
 
     public void setNombre(RolNombre nombre) {
         this.nombre = nombre;
-    }
-
-    @Override
-    public String toString() {
-        return "ROLE_" + nombre.name(); // Necesario para Spring Security (Ej: ROLE_ADMIN)
     }
 }
