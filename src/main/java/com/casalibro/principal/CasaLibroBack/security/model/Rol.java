@@ -15,8 +15,7 @@ public class Rol {
     @Enumerated(EnumType.STRING)
     private RolNombre nombre;
 
-    public Rol(){
-
+    public Rol() {
     }
 
     public Rol(RolNombre nombre) {
@@ -38,4 +37,6 @@ public class Rol {
     public void setNombre(RolNombre nombre) {
         this.nombre = nombre;
     }
+
+
 }

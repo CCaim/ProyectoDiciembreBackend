@@ -15,7 +15,7 @@ import java.util.Optional;
 public class RolService {
 
     @Autowired
-     RolRepo rolRepo;
+    RolRepo rolRepo;
 
 
     public List<Rol> listarRoles() {

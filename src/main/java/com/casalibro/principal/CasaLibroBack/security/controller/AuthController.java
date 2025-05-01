@@ -42,17 +42,16 @@ public class AuthController {
     @Autowired
     RolService rolService;
 
-     @Autowired
+    @Autowired
     JwtProvider jwtProvider;
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
-            return new ResponseEntity<>(new Mensaje("Campos mal puesto s o email inválido"), HttpStatus.BAD_REQUEST);
-        if(usuarioService.existByUsername(nuevoUsuario.getUsername()))
+            return new ResponseEntity<>(new Mensaje("Campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
+        if(usuarioService.existsByUsername(nuevoUsuario.getUsername()))
             return new ResponseEntity<>(new Mensaje("Ese nombre de Usuario ya existe"),HttpStatus.BAD_REQUEST);
-        if(usuarioService.existByEmail(nuevoUsuario.getEmail()))
-            return new ResponseEntity<>(new Mensaje("Ese email ya está asignado a un Usuario"),HttpStatus.BAD_REQUEST);
+
         Usuario usuario =
                 new Usuario(nuevoUsuario.getUsername(), passwordEncoder.encode(nuevoUsuario.getPassword())
                         , nuevoUsuario.getEmail());
@@ -66,7 +65,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
+    public ResponseEntity<JwtDto> login( @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Mensaje("Campos mal puestos o email inválido"), HttpStatus.BAD_REQUEST);
         Authentication authentication =

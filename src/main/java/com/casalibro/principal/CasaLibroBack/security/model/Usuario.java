@@ -1,13 +1,15 @@
 package com.casalibro.principal.CasaLibroBack.security.model;
 
-import com.casalibro.principal.CasaLibroBack.model.Comentario;
-import com.casalibro.principal.CasaLibroBack.model.Libro;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+
+import com.casalibro.principal.CasaLibroBack.model.Comentario;
+import com.casalibro.principal.CasaLibroBack.model.Libro;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuarios")
@@ -18,20 +20,20 @@ public class Usuario {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<Libro> libros;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
     @JsonIgnore
     private Set<Comentario> comentarios;
 
@@ -43,22 +45,21 @@ public class Usuario {
     )
     private Collection<Rol> roles;
 
-    // Constructor por defecto
     public Usuario() {
-        this.libros = new HashSet<>();
-        this.comentarios = new HashSet<>();
+        this.libros = new HashSet<Libro>();
+        this.comentarios = new HashSet<Comentario>();
+        this.roles = new HashSet<Rol>();
     }
 
-    // Constructor con parámetros para inicializar un usuario
     public Usuario(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.libros = new HashSet<>();
-        this.comentarios = new HashSet<>();
+        this.libros = new HashSet<Libro>();
+        this.comentarios = new HashSet<Comentario>();
+        this.roles = new HashSet<Rol>();
     }
 
-    // Getters y Setters
     public int getId() {
         return id;
     }
