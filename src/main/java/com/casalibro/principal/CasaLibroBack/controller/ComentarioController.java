@@ -1,12 +1,16 @@
 package com.casalibro.principal.CasaLibroBack.controller;
 
+import com.casalibro.principal.CasaLibroBack.dto.ComentarioDTO;
 import com.casalibro.principal.CasaLibroBack.model.Comentario;
+import com.casalibro.principal.CasaLibroBack.model.Libro;
+import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
 import com.casalibro.principal.CasaLibroBack.security.service.UsuarioService;
 import com.casalibro.principal.CasaLibroBack.service.ComentarioService;
 import com.casalibro.principal.CasaLibroBack.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,29 +36,24 @@ public class ComentarioController {
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-
     public Comentario obtenerComentarioPorID(@PathVariable(name = "id") Integer id){
         return comenService.obtenerComentarioPorId(id);
     }
 
-//	@RequestMapping(value="/new", method = RequestMethod.POST)
-//	@ApiResponses(value = {
-//	        @ApiResponse(code = 200, message = "Se ha insertado el comentario")
-//	})
-//	public ResponseEntity<?> insertarComentario(@RequestBody ComentarioDTO comenDTO, BindingResult bindingResult){
-//	    if(bindingResult.hasErrors())
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//	    Libro recetaComentada = receService.obtenerLibroPorId(comenDTO.getIdLibro());
-//	    Usuario usuarioComentador = usuService.obtenerUsuarioPorUsername(comenDTO.getUsername());
-//		Comentario comenNuevo = new Comentario(comenDTO.getMensaje(), recetaComentada, usuarioComentador);
-//
-//		comenService.insertarComentario(comenNuevo);
-//
-//		return new ResponseEntity<>(HttpStatus.CREATED);
-//	}
+    @RequestMapping(value="/new", method = RequestMethod.POST)
+    public ResponseEntity<?> insertarComentario(@RequestBody ComentarioDTO comenDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Libro libroComentado = libroService.obtenerLibroPorId(comenDTO.getIdLibro());
+        Usuario usuarioComentador = usuService.obtenerUsuarioPorUsername(comenDTO.getUsername());
+        Comentario comenNuevo = new Comentario(comenDTO.getMensaje(), libroComentado, usuarioComentador);
+
+        comenService.insertarComentario(comenNuevo);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     @RequestMapping(value="/remove/{id}", method = RequestMethod.DELETE)
-
     public ResponseEntity<HttpStatus> eliminarComentarioPorID(@PathVariable(name = "id") Integer id){
         try{
             comenService.eliminarComentarioPorId(id);

@@ -3,6 +3,7 @@ package com.casalibro.principal.CasaLibroBack.security.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+
 public class NuevoUsuario {
     private String username;
 

@@ -2,31 +2,24 @@ package com.casalibro.principal.CasaLibroBack.service.impl;
 
 import com.casalibro.principal.CasaLibroBack.model.Libro;
 import com.casalibro.principal.CasaLibroBack.repository.LibroRepo;
-import com.casalibro.principal.CasaLibroBack.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class LibroServiceImpl implements LibroService {
+public class LibroService implements com.casalibro.principal.CasaLibroBack.service.LibroService{
 
     @Autowired
     LibroRepo libroRepo;
 
     @Override
-    public Libro insertarLibro(Libro libro){
+    public Libro insertarLibro(Libro libro) {
         return libroRepo.save(libro);
     }
 
     @Override
-    public Libro actualizarLibro(Libro libroUpd, Integer idLA) {
-        Libro libroAntiguo = obtenerLibroPorId(idLA);
-        return insertarLibro(libroAntiguo);
-    }
-
-    @Override
-    public List<Libro> listarLibro(){
+    public List<Libro> listarLibro() {
         return libroRepo.findAll();
     }
 
@@ -36,8 +29,8 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public Libro obtenerLibroPorNombre(String nombrelibro) {
-        return libroRepo.findByNombre(nombrelibro).get();
+    public Libro obtenerLibroPorNombre(String nombreLibro) {
+        return libroRepo.findByNombre(nombreLibro).get();
     }
 
     @Override
@@ -49,5 +42,11 @@ public class LibroServiceImpl implements LibroService {
     public void eliminarLibroPorId(Integer id) {
         libroRepo.delete(libroRepo.findById(id).get());
     }
-}
 
+    @Override
+    public Libro actualizarLibro(Libro libroUpdate, Integer idRA) {
+        Libro libroAntiguo = obtenerLibroPorId(idRA);
+        return insertarLibro(libroAntiguo);
+    }
+
+}

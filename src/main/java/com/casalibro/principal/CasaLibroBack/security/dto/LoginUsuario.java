@@ -1,5 +1,6 @@
 package com.casalibro.principal.CasaLibroBack.security.dto;
 
+
 public class LoginUsuario {
 
     private String username;

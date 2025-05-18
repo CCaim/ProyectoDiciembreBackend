@@ -2,51 +2,51 @@ package com.casalibro.principal.CasaLibroBack.service.impl;
 
 import com.casalibro.principal.CasaLibroBack.model.Genero;
 import com.casalibro.principal.CasaLibroBack.repository.GeneroRepo;
-import com.casalibro.principal.CasaLibroBack.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GeneroServiceImpl implements GeneroService {
+public class GeneroService implements com.casalibro.principal.CasaLibroBack.service.GeneroService {
 
     @Autowired
     GeneroRepo generoRepo;
 
     @Override
-    public Genero insertarGenero(Genero genero){
-        return generoRepo.save(genero);
+    public Genero insertarGenero(Genero gene) {
+        return generoRepo.save(gene);
     }
 
     @Override
-    public List<Genero> listarGeneros(){
+    public List<Genero> listarGeneros() {
         return generoRepo.findAll();
     }
 
     @Override
-    public Genero obtenerGeneroPorId(Integer id){
-        return generoRepo.findById(id).get();
+    public Genero obtenerGeneroPorId(Integer id) {
+        return null;
     }
 
     @Override
-    public Genero obtenerGeneroPorNombre(String nombreGenero){
+    public Genero obtenerGeneroPorNombre(String nombreGenero) {
         return generoRepo.findByNombre(nombreGenero).get();
     }
 
     @Override
-    public void eliminarGenero(Genero genero){
-        generoRepo.delete(genero);
+    public void eliminarGenero(Genero gene) {
+        generoRepo.delete(gene);
     }
 
     @Override
-    public void eliminarGeneroPorId(Integer id){
+    public void eliminarGeneroPorId(Integer id) {
         generoRepo.delete(generoRepo.findById(id).get());
     }
 
     @Override
-    public Genero actualizarGenero(Genero GeneroUpdate, Integer idGU){
-        Genero generoAntiguo = obtenerGeneroPorId(idGU);
+    public Genero actualizarGenero(Genero GeneroUpdate, Integer idIA) {
+        Genero generoAntiguo = obtenerGeneroPorId(idIA);
         return insertarGenero(generoAntiguo);
     }
+
 }

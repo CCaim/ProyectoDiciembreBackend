@@ -1,9 +1,11 @@
 package com.casalibro.principal.CasaLibroBack.dto;
 
 import com.casalibro.principal.CasaLibroBack.model.Comentario;
+import com.casalibro.principal.CasaLibroBack.security.model.Rol;
 import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,13 +19,16 @@ public class LibroEditDTO {
 
     private String tipo;
 
-    private float valoracion;
+    private String instrucciones;
 
     private String urlImagen;
 
     private Set<Comentario> comentarios;
 
     private Usuario usuario;
+
+    private List<GeneroCantidadDTO> generos;
+
 
     public int getId() {
         return id;
@@ -57,12 +62,12 @@ public class LibroEditDTO {
         this.tipo = tipo;
     }
 
-    public float getValoracion() {
-        return valoracion;
+    public String getInstrucciones() {
+        return instrucciones;
     }
 
-    public void setValoracion(float valoracion) {
-        this.valoracion = valoracion;
+    public void setInstrucciones(String instrucciones) {
+        this.instrucciones = instrucciones;
     }
 
     public String getUrlImagen() {
@@ -87,5 +92,13 @@ public class LibroEditDTO {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public List<GeneroCantidadDTO> getGeneros() {
+        return generos;
+    }
+
+    public void setGeneros(List<GeneroCantidadDTO> generos) {
+        this.generos = generos;
     }
 }

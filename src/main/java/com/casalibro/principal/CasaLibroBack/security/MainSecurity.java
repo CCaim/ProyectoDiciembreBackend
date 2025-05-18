@@ -60,8 +60,8 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/auth/**",
-                        "/receta/getAll",
-                        "/receta/{id}",
+                        "/libro/getAll",
+                        "/libro/{id}",
                         "/v2/api-docs/**",
                         "/swagger-ui/**",
                         "/swagger-resources/**",

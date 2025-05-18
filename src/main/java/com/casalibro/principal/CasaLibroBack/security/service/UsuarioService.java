@@ -24,11 +24,11 @@ public class UsuarioService {
         return usuarioRepo.existsByUsername(nombre);
     }
 
-    public boolean existByEmail(String correo){
+    public boolean existsByEmail(String correo){
         return usuarioRepo.existsByEmail(correo);
     }
 
-    public Usuario guardar(Usuario usu){
+    public Usuario guardar(Usuario usu) {
         return usuarioRepo.save(usu);
     }
 
@@ -55,7 +55,6 @@ public class UsuarioService {
 
     public Usuario actualizarUsuario(Usuario usuU, Integer idUA) {
         Usuario usuAntiguo = obtenerUsuarioPorId(idUA);
-
         return guardar(usuAntiguo);
     }
 }

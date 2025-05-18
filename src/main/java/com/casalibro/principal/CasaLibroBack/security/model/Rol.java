@@ -3,6 +3,7 @@ package com.casalibro.principal.CasaLibroBack.security.model;
 import com.casalibro.principal.CasaLibroBack.security.enums.RolNombre;
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "roles")
 public class Rol {

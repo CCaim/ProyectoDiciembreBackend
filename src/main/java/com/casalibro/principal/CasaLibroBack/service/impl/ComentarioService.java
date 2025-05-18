@@ -3,7 +3,7 @@ package com.casalibro.principal.CasaLibroBack.service.impl;
 import com.casalibro.principal.CasaLibroBack.model.Comentario;
 import com.casalibro.principal.CasaLibroBack.repository.ComentarioRepo;
 import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
-import com.casalibro.principal.CasaLibroBack.service.ComentarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ComentarioServiceImpl implements com.casalibro.principal.CasaLibroBack.service.ComentarioService {
+public class ComentarioService implements com.casalibro.principal.CasaLibroBack.service.ComentarioService {
 
     @Autowired
     ComentarioRepo comentarioRepo;

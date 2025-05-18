@@ -21,7 +21,7 @@ public class ComentarioDTO {
         return idLibro;
     }
 
-    public void setIdLibro(int idReceta) {
+    public void setIdLibro(int idLibro) {
         this.idLibro = idLibro;
     }
 
@@ -32,6 +32,4 @@ public class ComentarioDTO {
     public void setUsername(String username) {
         this.username = username;
     }
-
-
 }

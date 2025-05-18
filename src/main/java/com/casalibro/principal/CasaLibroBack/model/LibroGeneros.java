@@ -36,9 +36,6 @@ public class LibroGeneros {
         this.cantidad = c;
     }
 
-    public LibroGeneros(Libro libro, Genero genero) {
-    }
-
     public LibroGeneros(Libro libro, Genero genero, Integer cantidad) {
         this.libro = libro;
         this.genero = genero;

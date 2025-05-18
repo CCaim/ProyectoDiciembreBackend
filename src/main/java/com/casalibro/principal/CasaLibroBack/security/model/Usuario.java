@@ -94,7 +94,7 @@ public class Usuario {
         return libros;
     }
 
-    public void setRLibros(Set<Libro> libros) {
+    public void setLibros(Set<Libro> libros) {
         this.libros = libros;
     }
 

@@ -36,7 +36,6 @@ public class UsuarioPrincipal implements UserDetails{
         return new UsuarioPrincipal(usuario.getUsername(), usuario.getPassword(), usuario.getEmail(), usuario.getLibros(), usuario.getComentarios(), authorities);
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -76,7 +75,7 @@ public class UsuarioPrincipal implements UserDetails{
         return email;
     }
 
-    public Set<Libro> getRecetas() {
+    public Set<Libro> getLibros() {
         return libros;
     }
 

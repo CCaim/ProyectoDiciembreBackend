@@ -16,7 +16,7 @@ public class Comentario {
     private String mensaje;
 
     @ManyToOne
-    @JoinColumn(name = "id_libro", nullable = false)
+    @JoinColumn(name="id_receta", nullable = false)
     @JsonIgnore
     private Libro libro;
 
@@ -26,8 +26,9 @@ public class Comentario {
 
     public Comentario() {}
 
-    public Comentario(String mensaje, Usuario usuario) {
+    public Comentario(String mensaje, Libro libro, Usuario usuario) {
         this.mensaje = mensaje;
+        this.libro = libro;
         this.usuario = usuario;
     }
 
@@ -45,6 +46,14 @@ public class Comentario {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
+    }
+
+    public Libro getLibro() {
+        return libro;
+    }
+
+    public void setLibro(Libro libro) {
+        this.libro = libro;
     }
 
     public Usuario getUsuario() {

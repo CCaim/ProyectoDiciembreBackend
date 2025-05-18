@@ -2,6 +2,7 @@ package com.casalibro.principal.CasaLibroBack.dto;
 
 import com.casalibro.principal.CasaLibroBack.model.Genero;
 
+
 public class GeneroCantidadDTO {
 
     private Genero genero;

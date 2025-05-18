@@ -18,47 +18,42 @@ public class GeneroController {
     @Autowired
     private GeneroService generoService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
+    @RequestMapping(value="/getAll", method = RequestMethod.GET)
     public List<Genero> listadoGeneros(){
         return generoService.listarGeneros();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Genero obtenerGeneroPorId(@PathVariable(name = "id") Integer id){
+    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+    public Genero obtenerGeneroPorID(@PathVariable(name = "id") Integer id){
         return generoService.obtenerGeneroPorId(id);
     }
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
+
+    @RequestMapping(value="/new", method = RequestMethod.POST)
     public ResponseEntity<?> insertarGenero(@RequestBody GeneroDTO generoNuevoDTO, BindingResult bindingResult){
-        if (bindingResult.hasErrors())
+        if(bindingResult.hasErrors())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        Genero generoNuevo = new Genero(generoNuevoDTO.getNombre(), generoNuevoDTO.getTipo());
+        Genero generoNuevo = new Genero(generoNuevoDTO.getNombre());
         generoService.insertarGenero(generoNuevo);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> actualizarGenero(@PathVariable(name = "id") Integer idAntiguo, @RequestBody GeneroDTO generoActualizado, BindingResult bindingResult){
-        if (bindingResult.hasErrors())
+    @RequestMapping(value="/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> actualizarGenero(@PathVariable(name = "id") Integer idGeneroAntiguo, @RequestBody GeneroDTO generoActualizado, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        Genero generoAntiguo = generoService.obtenerGeneroPorId(idAntiguo);
+        Genero generoAntiguo = generoService.obtenerGeneroPorId(idGeneroAntiguo);
         generoAntiguo.setNombre(generoActualizado.getNombre());
-        generoAntiguo.setTipo(generoActualizado.getTipo());
 
         generoService.insertarGenero(generoAntiguo);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RequestMapping(value = "/{remove}", method = RequestMethod.DELETE)
+
+    @RequestMapping(value="/remove/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<HttpStatus> eliminarGeneroPorID(@PathVariable(name = "id") Integer id){
-        try {
+        try{
             generoService.eliminarGeneroPorId(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e){
+        }catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

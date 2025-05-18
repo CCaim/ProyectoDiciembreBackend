@@ -8,19 +8,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "Libro")
+@Table(name = "libros")
 public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private int id;
 
     @Column(name = "nombre")
     private String nombre;
-
-    @Column(name = "valoracion")
-    private float valoracion;
 
     @Column(name = "fecha")
     private Date fecha;
@@ -28,14 +25,17 @@ public class Libro {
     @Column(name = "tipo")
     private String tipo;
 
+    @Column(name = "instrucciones")
+    private String instrucciones;
+
     @Column(name = "urlImagen")
     private String urlImagen;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario",nullable = false)
+    @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @OneToMany(mappedBy = "libro", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy="libro", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
     private Set<Comentario> comentarios;
 
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -43,35 +43,29 @@ public class Libro {
 
     public Libro() {
         this.fecha = new Date();
-        this.valoracion = 0f;
         this.usuario = new Usuario();
         this.comentarios = new HashSet<Comentario>();
         this.generos = new HashSet<LibroGeneros>();
-
     }
 
-    public Libro(String nombre, float valoracion, Date fecha, String tipo, String urlImagen, Usuario usuario, Set<Comentario> comentarios, Set<LibroGeneros> generos) {
+    public Libro(String nombre, String tipo, String instrucciones, String urlImg) {
         this.nombre = nombre;
-        this.valoracion = valoracion;
-        this.fecha = fecha;
+        this.fecha = new Date();
         this.tipo = tipo;
+        this.instrucciones = instrucciones;
         this.urlImagen = urlImagen;
-        this.usuario = usuario;
-        this.comentarios = comentarios;
-        this.generos = generos;
+        this.usuario = new Usuario();
+        this.comentarios = new HashSet<Comentario>();
+        this.generos = new HashSet<LibroGeneros>();
     }
 
-    public Libro(String nombre, String tipo, String urlImagen) {
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.urlImagen = urlImagen;
-    }
 
-    public Integer getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -81,14 +75,6 @@ public class Libro {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public float getValoracion() {
-        return valoracion;
-    }
-
-    public void setValoracion(float valoracion) {
-        this.valoracion = valoracion;
     }
 
     public Date getFecha() {
@@ -105,6 +91,14 @@ public class Libro {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getInstrucciones() {
+        return instrucciones;
+    }
+
+    public void setInstrucciones(String instrucciones) {
+        this.instrucciones = instrucciones;
     }
 
     public String getUrlImagen() {
@@ -139,24 +133,32 @@ public class Libro {
         this.generos = generos;
     }
 
-    public void addGenero(Genero genero, int cantidad) {
-        LibroGeneros li = new LibroGeneros(this, genero, cantidad);
-        if (this.generos.contains(li)) {
-            this.generos.remove(li);
+    public void addGenero(Genero gene, int cantidad) {
+        LibroGeneros ri = new LibroGeneros(this, gene, cantidad);
+        if (this.generos.contains(ri)) {
+            this.generos.remove(ri);
+        }
+        if (cantidad != 0) {
+            this.generos.add(ri);
+            gene.getLibros().add(ri);
         }
     }
-    public void removeGenero(Genero genero) {
-        for (LibroGeneros li : genero.getLibros()) {
-            if (li.getLibro().equals(this)) {
-                genero.getLibros().remove(li);
+
+    public void removeGenero(Genero gene) {
+        for (LibroGeneros ri : this.generos) {
+            if (ri.getGenero().equals(gene)) {
+                this.generos.remove(ri);
+            }
+        }
+        for (LibroGeneros ri : gene.getLibros()) {
+            if (ri.getLibro().equals(this)) {
+                gene.getLibros().remove(ri);
             }
         }
     }
 
-
-    public void removeGeneros(){
+    public void removeGeneros() {
         this.generos.removeAll(this.generos);
     }
-
 
 }

@@ -8,9 +8,11 @@ public class LibroDTO {
 
     private String nombre;
 
-    private String urlImagen;
-
     private String tipo;
+
+    private String instrucciones;
+
+    private String urlImagen;
 
     private Usuario usuario;
 
@@ -24,20 +26,28 @@ public class LibroDTO {
         this.nombre = nombre;
     }
 
-    public String getUrlImagen() {
-        return urlImagen;
-    }
-
-    public void setUrlImagen(String urlImagen) {
-        this.urlImagen = urlImagen;
-    }
-
     public String getTipo() {
         return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getInstrucciones() {
+        return instrucciones;
+    }
+
+    public void setInstrucciones(String instrucciones) {
+        this.instrucciones = instrucciones;
+    }
+
+    public String getUrlImagen() {
+        return urlImagen;
+    }
+
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
     }
 
     public Usuario getUsuario() {
@@ -52,7 +62,7 @@ public class LibroDTO {
         return generos;
     }
 
-    public void setGeneros(List<GeneroCantidadDTO> generos) {
+    public void setGenerosCantidad(List<GeneroCantidadDTO> generos) {
         this.generos = generos;
     }
 }
