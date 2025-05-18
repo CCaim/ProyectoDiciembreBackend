@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface ComentarioRepo extends JpaRepository<Comentario, Integer> {
 
     public Optional<Comentario> findByUsuario(Usuario usuario);
+
 }

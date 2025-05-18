@@ -11,15 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ComentarioServiceImpl implements ComentarioService {
+public class ComentarioServiceImpl implements com.casalibro.principal.CasaLibroBack.service.ComentarioService {
 
     @Autowired
     ComentarioRepo comentarioRepo;
 
     @Override
-    public Comentario insertarComentario(Comentario comen){
+    public Comentario insertarComentario(Comentario comen) {
         return comentarioRepo.save(comen);
     }
+
     @Override
     public List<Comentario> listarComentarios() {
         return comentarioRepo.findAll();

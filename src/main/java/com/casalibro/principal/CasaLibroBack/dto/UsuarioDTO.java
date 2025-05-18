@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class UsuarioDTO {
-
     private String username;
 
     private String email;
@@ -46,4 +45,5 @@ public class UsuarioDTO {
     public void setRoles(Set<Rol> roles) {
         this.roles = roles;
     }
+
 }

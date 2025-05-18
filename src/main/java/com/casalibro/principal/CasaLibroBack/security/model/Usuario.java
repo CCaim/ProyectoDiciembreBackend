@@ -3,7 +3,7 @@ package com.casalibro.principal.CasaLibroBack.security.model;
 import com.casalibro.principal.CasaLibroBack.model.Comentario;
 import com.casalibro.principal.CasaLibroBack.model.Libro;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -31,7 +31,7 @@ public class Usuario {
     @JsonIgnore
     private Set<Libro> libros;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy="usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE )
     @JsonIgnore
     private Set<Comentario> comentarios;
 
@@ -43,20 +43,19 @@ public class Usuario {
     )
     private Collection<Rol> roles;
 
-    public Usuario(){
+    public Usuario() {
         this.libros = new HashSet<Libro>();
         this.comentarios = new HashSet<Comentario>();
+        this.roles = new HashSet<Rol>();
     }
 
-    public Usuario(String username, String password, String email, Set<Libro> libros, Set<Comentario> comentarios) {
+    public Usuario(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.libros = new HashSet<Libro>();
         this.comentarios = new HashSet<Comentario>();
-    }
-
-    public Usuario(String username, String encode, String email) {
+        this.roles = new HashSet<Rol>();
     }
 
     public int getId() {
@@ -95,7 +94,7 @@ public class Usuario {
         return libros;
     }
 
-    public void setLibros(Set<Libro> libros) {
+    public void setRLibros(Set<Libro> libros) {
         this.libros = libros;
     }
 

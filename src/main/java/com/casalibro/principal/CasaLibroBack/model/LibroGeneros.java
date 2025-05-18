@@ -1,7 +1,7 @@
 package com.casalibro.principal.CasaLibroBack.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.Objects;
 

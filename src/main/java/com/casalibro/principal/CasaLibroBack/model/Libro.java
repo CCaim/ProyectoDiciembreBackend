@@ -1,7 +1,7 @@
 package com.casalibro.principal.CasaLibroBack.model;
 
 import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.Date;
 import java.util.HashSet;

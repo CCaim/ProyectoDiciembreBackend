@@ -42,7 +42,7 @@ public class LibroServiceImpl implements LibroService {
 
     @Override
     public void eliminarLibro(Libro libro) {
-         libroRepo.delete(libro);
+        libroRepo.delete(libro);
     }
 
     @Override
@@ -50,3 +50,4 @@ public class LibroServiceImpl implements LibroService {
         libroRepo.delete(libroRepo.findById(id).get());
     }
 }
+

@@ -4,6 +4,7 @@ import com.casalibro.principal.CasaLibroBack.model.Genero;
 
 import java.util.List;
 
+
 public interface GeneroService {
 
     public Genero insertarGenero(Genero genero);

@@ -2,7 +2,7 @@ package com.casalibro.principal.CasaLibroBack.security.service;
 
 import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
 import com.casalibro.principal.CasaLibroBack.security.repository.UsuarioRepo;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class UsuarioService {
         return usuarioRepo.findByUsername(nombreUsu);
     }
 
-    public boolean existByUsername(String nombre){
+    public boolean existsByUsername(String nombre){
         return usuarioRepo.existsByUsername(nombre);
     }
 
@@ -32,7 +32,7 @@ public class UsuarioService {
         return usuarioRepo.save(usu);
     }
 
-    public List<Usuario> listarUsuario(){
+    public List<Usuario> listarUsuarios() {
         return usuarioRepo.findAll();
     }
 
@@ -40,20 +40,22 @@ public class UsuarioService {
         return usuarioRepo.findById(id).get();
     }
 
-    public Usuario obtenerUsuarioPorUsername(String nombreUsuario){
+
+    public Usuario obtenerUsuarioPorUsername(String nombreUsuario) {
         return usuarioRepo.findByUsername(nombreUsuario).get();
     }
 
-    public void deletePorId(int id){
+    public void deletePorId(int id) {
         usuarioRepo.delete(usuarioRepo.findById(id).get());
     }
 
-    public void eliminarUsuario(Usuario user){
+    public void eliminarUsuario(Usuario user) {
         usuarioRepo.delete(user);
     }
 
-    public Usuario actualizarUsuario(Usuario usuUpdate, Integer idUA){
+    public Usuario actualizarUsuario(Usuario usuU, Integer idUA) {
         Usuario usuAntiguo = obtenerUsuarioPorId(idUA);
+
         return guardar(usuAntiguo);
     }
 }

@@ -1,9 +1,11 @@
 package com.casalibro.principal.CasaLibroBack.dto;
 
+
 public class ComentarioDTO {
+
     private String mensaje;
 
-    private int idReceta;
+    private int idLibro;
 
     private String username;
 
@@ -15,12 +17,12 @@ public class ComentarioDTO {
         this.mensaje = mensaje;
     }
 
-    public int getIdReceta() {
-        return idReceta;
+    public int getIdLibro() {
+        return idLibro;
     }
 
-    public void setIdReceta(int idReceta) {
-        this.idReceta = idReceta;
+    public void setIdLibro(int idReceta) {
+        this.idLibro = idLibro;
     }
 
     public String getUsername() {
@@ -30,4 +32,6 @@ public class ComentarioDTO {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
 }

@@ -1,6 +1,6 @@
 package com.casalibro.principal.CasaLibroBack.model;
 
-import jakarta.persistence.Column;
+import javax.persistence.Column;
 
 import java.io.Serializable;
 import java.util.Objects;

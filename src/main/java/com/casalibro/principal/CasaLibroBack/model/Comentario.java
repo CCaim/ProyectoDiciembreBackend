@@ -1,13 +1,14 @@
 package com.casalibro.principal.CasaLibroBack.model;
 import com.casalibro.principal.CasaLibroBack.security.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
-@Table (name = "Comentario")
+@Table(name = "comentarios")
 public class Comentario {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -20,21 +21,14 @@ public class Comentario {
     private Libro libro;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name="id_usuario", nullable = false)
     private Usuario usuario;
 
-    public Comentario(){
+    public Comentario() {}
 
-    }
-
-    public Comentario(String mensaje, Libro libro, Usuario usuario) {
+    public Comentario(String mensaje, Usuario usuario) {
         this.mensaje = mensaje;
-        this.libro = libro;
         this.usuario = usuario;
-    }
-
-    public Comentario(String mensaje) {
-        this.mensaje = mensaje;
     }
 
     public Integer getId() {
@@ -51,14 +45,6 @@ public class Comentario {
 
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
-    }
-
-    public Libro getLibro() {
-        return libro;
-    }
-
-    public void setLibro(Libro libro) {
-        this.libro = libro;
     }
 
     public Usuario getUsuario() {

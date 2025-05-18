@@ -15,6 +15,7 @@ public class JwtProvider {
 
     private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
+
     private String secret = "secret";
 
     private int expiration = 36000;
